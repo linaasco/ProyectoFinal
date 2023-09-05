@@ -10,7 +10,7 @@ public class Main {
         intrandomNumber=random.nextInt(100)+1;
 
         do{
-            System.out.println("Ingrese su jugada entre "+min+" y "+max);
+            System.out.println("Ingrese su número entre "+min+" y "+max);
             n=sc.nextInt();
 
             contador++;
@@ -20,21 +20,18 @@ public class Main {
                 break;
             }
             if(n==intrandomNumber)
-                System.out.println("Felicitaciones ");
+                System.out.println("Felicitaciones");
             else {
-                if(n>intrandomNumber)
-                {
+                if(n>intrandomNumber) {
                     max=n;
-                    System.out.println("EL SECRETO ES MENOR");
+                    System.out.println("EL NÚMERO ES MENOR");
                 }
-                else
-                {
+                else {
                     min=n;
-                    System.out.println("EL SECRETO ES MAYOR");
+                    System.out.println("EL NÚMERO ES MAYOR");
                 }
-
             }
-            System.out.println("intentos: "+contador);
+            System.out.println("Intentos: "+contador);
         }while(n!=intrandomNumber&&n>=min&&n<=max);
         if(n==intrandomNumber)
             System.out.println("Felicitaciones ");
