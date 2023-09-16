@@ -1,9 +1,21 @@
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class ProyectoFinal {
 
-    static String horario = "";
 
+    static HashMap<String, String> nombre_laboral = new HashMap<>();
+    static HashMap<String, String> roles = new HashMap<>();
+    static HashMap<String, String> cedulas = new HashMap<>();
+    static HashMap<String, String> horarios = new HashMap<>();
+    static HashMap<String, String> mensajes = new HashMap<>();
+
+    static String nombre;
+    static String codigo;
+    static String rol;
+    static String cedula;
+    static String chat;
+    static String horario = "";
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Bienvenido al sistema de administracion de horarios.");
