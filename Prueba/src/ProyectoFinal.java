@@ -202,9 +202,7 @@ public class ProyectoFinal {
 
     public static void gerenteOpciones() {
         Scanner scanner = new Scanner(System.in);
-        String cambiohor = "";
-        String nombree = "";
-        String mensaje2 = "";
+
         while (true) {
             System.out.println("\nOpciones disponibles para gerentes:");
             System.out.println("1. Ver horario");
@@ -218,25 +216,41 @@ public class ProyectoFinal {
 
             switch (opcion) {
                 case 1:
-                    if (horario.isEmpty()) {
-                        System.out.println("No se ha creado ningun horario.");
-                    } else {
-                        System.out.println("El Horario actual es:");
-                        System.out.println(horario);
+                    System.out.print("Ingrese el codigo del empleado : ");
+                    codigo = scanner.next();
+                    if (nombre_laboral.containsKey(codigo)) {
+                        nombre = nombre_laboral.get(codigo);
+                        horario = horarios.get(codigo);
+                        System.out.println("Los datos del usuario con código: " + codigo);
+                        System.out.println("Nombre: " + nombre);
+                        System.out.println("El horario actual es: " + horario);
+
                     }
                     break;
                 case 2:
-                    System.out.print("Ingresar el horario solicitado: ");
-                    cambiohor = scanner.nextLine();
-                    System.out.println("...");
-                    System.out.println("Se ha enviado la solicitud al administrador del sistema.");
+                    System.out.print("Ingrese el codigo del administrador : ");
+                    codigo = scanner.next();
+                    if (nombre_laboral.containsKey(codigo)) {
+
+                        System.out.println("Ingrese el mensaje a enviar");
+                        chat = scanner.nextLine();
+                        mensajes.put(codigo, chat);
+                        System.out.println("El mensaje se envio con exito a " + codigo);
+                    }
                     break;
                 case 3:
-                    System.out.print("Ingrese el nombre del empleado al que desea enviar el mensaje: ");
-                    nombree = scanner.nextLine();
-                    System.out.print("Ingrese el mensaje a enviar: ");
-                    mensaje2 = scanner.nextLine();
-                    System.out.println("Se ha enviado el mensaje satisfactoriamente a "+nombree+".");
+                    System.out.print("Ingrese el codigo del empleado : ");
+                    codigo = scanner.next();
+
+                    if (nombre_laboral.containsKey(codigo)) {
+
+                        scanner.nextLine();
+
+                        System.out.println("Ingrese el mensaje a enviar");
+                        chat = scanner.nextLine();
+                        mensajes.put(codigo, chat);
+                        System.out.println("El mensaje se envio con exito a " + codigo);
+                    }
                     break;
                 case 4:
                     return;
