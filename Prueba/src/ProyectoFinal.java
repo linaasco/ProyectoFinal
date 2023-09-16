@@ -90,8 +90,9 @@ public class ProyectoFinal {
 
 
 
-    public static void administrarHorarios(String usuario, String rol) {
-        System.out.println("Usuario: " + usuario);
+    public static void administrarHorarios(String nombre, String rol) {
+        System.out.println("\nBienvenido, " + nombre + ".");
+        System.out.println("Usuario: " + nombre);
         System.out.println("Rol: " + rol);
 
         switch (rol.toLowerCase()) {
@@ -110,12 +111,9 @@ public class ProyectoFinal {
         }
     }
 
+
     public static void administradorOpciones() {
         Scanner scanner = new Scanner(System.in);
-        String nombreg = "";
-        String mensaje = "";
-        String eliminar = "";
-
         while (true) {
             System.out.println("\nOpciones disponibles para administradores:");
             System.out.println("1. Ver Horario");
@@ -134,44 +132,64 @@ public class ProyectoFinal {
                     if (horario.isEmpty()) {
                         System.out.println("No se ha creado ningun horario.");
                     } else {
-                        System.out.println("El Horario actual es:");
-                        System.out.println(horario);
+                        System.out.print("Ingrese el codigo del empleado : ");
+                        codigo = scanner.next();
+                        if (nombre_laboral.containsKey(codigo)) {
+                            nombre = nombre_laboral.get(codigo);
+                            horario = horarios.get(codigo);
+                            System.out.println("Los datos del usuario con código: " + codigo);
+                            System.out.println("Nombre: " + nombre);
+                            System.out.println("El horario actual es: " + horario);
+                        }
                     }
                     break;
                 case 2:
-                    System.out.print("Ingrese el horario que desea crear: ");
-                    horario = scanner.nextLine();
-                    System.out.println("...");
+                    System.out.print("Ingrese el codigo del empleado : ");
+                    codigo = scanner.next();
+                    if (nombre_laboral.containsKey(codigo)) {
+                        System.out.println("Registre el horario");
+                        horario = scanner.next();
+                        horarios.put(codigo, horario);
+                    }
                     System.out.println("Se ha creado el horario exitosamente.");
                     break;
                 case 3:
                     if (horario.isEmpty()) {
                         System.out.println("No se ha creado ningún horario.");
                     } else {
-                        System.out.println("El Horario actual es: "+(horario));
-                        System.out.println("Ingrese el nuevo horario: ");
-                        horario = scanner.nextLine();
-                        System.out.println("...");
-                        System.out.println("Se ha modificado el horario exitosamente.");
+                        System.out.print("Ingrese el codigo del empleado : ");
+                        codigo = scanner.next();
+                        if (nombre_laboral.containsKey(codigo)) {
+                            System.out.println("El Horario actual es: " + (horario));
+                            System.out.println("Ingrese el nuevo horario: ");
+                            horario = scanner.nextLine();
+                            System.out.println("...");
+                            System.out.println("Se ha modificado el horario exitosamente.");
+                        }
                     }
                     break;
                 case 4:
                     System.out.print("Esta seguro que desea eliminar el horario? (si/no): ");
-                    eliminar = scanner.nextLine();
+                    String eliminar = scanner.nextLine();
                     if (eliminar.equalsIgnoreCase("si")) {
-                        System.out.println("...");
-                        horario = "";
-                        System.out.println("Se ha eliminado el horario.");
+                        System.out.println("Ingrese el código del usuario");
+                        codigo = scanner.next();
+                        horarios.remove(codigo);
+                        break;
                     } else {
                         System.out.println("No se ha eliminado el horario.");
                     }
                     break;
                 case 5:
-                    System.out.print("Ingrese el nombre del Gerente al que desea enviar el mensaje: ");
-                    nombreg = scanner.nextLine();
-                    System.out.print("Ingrese el mensaje a enviar: ");
-                    mensaje = scanner.nextLine();
-                    System.out.println("Se ha enviado el mensaje satisfactoriamente a "+nombreg+".");
+                    System.out.print("Ingrese el codigo del gerente : ");
+                    codigo = scanner.next();
+                    if (nombre_laboral.containsKey(codigo)) {
+                        System.out.println("Ingrese el mensaje a enviar");
+                        scanner.nextLine();
+                        chat = scanner.nextLine();
+                        mensajes.put(codigo, chat);
+                    }
+                    System.out.println("Se ha enviado el mensaje satisfactoriamente a " + codigo + ".");
                     break;
                 case 6:
                     return;
