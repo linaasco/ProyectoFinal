@@ -18,6 +18,37 @@ public class ProyectoFinal {
     static String horario = "";
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n1. Ingresar Usuario");
+            System.out.println("2. Crear Usuario");
+            System.out.println("3. Salir");
+
+            System.out.print("Ingrese el numero de la opcion deseada : ");
+            int opcion = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    IngresarUsuario(scanner);
+                    break;
+
+                case 2:
+                    RegistrarUsuario(scanner);
+                    break;
+
+                case 3:
+                    System.out.println("Hasta Pronto!!");
+                    return;
+
+                default:
+                    System.out.println("Opcion invalida. Por favor, seleccione una opción valida.");
+                    break;
+            }
+        }
+    }
+
+
         System.out.println("Bienvenido al sistema de administracion de horarios.");
 
         System.out.print("Ingrese su nombre de usuario: ");
