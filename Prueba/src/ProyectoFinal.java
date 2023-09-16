@@ -47,6 +47,46 @@ public class ProyectoFinal {
             }
         }
     }
+    public static void IngresarUsuario(Scanner scanner) {
+        System.out.println("Ingrese el código de usuario");
+        codigo = scanner.next();
+        if (nombre_laboral.containsKey(codigo)) {
+            nombre = nombre_laboral.get(codigo);
+            rol = roles.get(codigo); // Obtener el rol del usuario
+
+            System.out.println("Los datos del usuario con código: " + codigo);
+            System.out.println("Nombre: " + nombre);
+            System.out.println("Rol :" + rol);
+            System.out.println("Cedula: " + cedula);
+
+            administrarHorarios(nombre, rol); // Llamar a la función para administrar horarios
+
+        } else {
+            System.out.println("NO existe un usuario con el código " + codigo);
+        }
+    }
+
+    public static void RegistrarUsuario(Scanner scanner) {
+        System.out.print("Ingrese su codigo de usuario: ");
+        codigo = scanner.nextLine();
+
+        if (!nombre_laboral.containsKey(codigo)) {
+            System.out.print("Ingrese su nombre: ");
+            nombre = scanner.nextLine();
+            System.out.print("Ingrese su cedula: ");
+            cedula = scanner.nextLine();
+            System.out.print("Ingrese su rol: ");
+            rol = scanner.nextLine();
+
+            nombre_laboral.put(codigo, nombre);
+            cedulas.put(codigo, cedula);
+            roles.put(codigo, rol);
+
+            System.out.println("Usuario creado exitosamente.");
+        } else {
+            System.out.println("El usuario ya existe. Por favor, ingrese otro nombre de usuario.");
+        }
+    }
 
 
 
