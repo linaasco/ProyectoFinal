@@ -275,11 +275,19 @@ public class ProyectoFinal {
 
             switch (opcion) {
                 case 1:
-                    if (horario.isEmpty()) {
-                        System.out.println("No se ha creado ningun horario.");
-                    } else {
-                        System.out.println("El Horario actual es:");
-                        System.out.println(horario);
+                    System.out.print("Ingrese su código : ");
+                    codigo = scanner.next();
+                    if (nombre_laboral.containsKey(codigo)) {
+                        nombre = nombre_laboral.get(codigo);
+                        horario = horarios.get(codigo);
+                        if (horario.isEmpty()) {
+                            System.out.println("Aún no se ha creado un horario para este usuario.");
+                        } else {
+                            System.out.println("Visualizando horario...");
+                            System.out.println("Los datos del usuario con código: " + codigo);
+                            System.out.println("Nombre: " + nombre);
+                            System.out.println("El horario actual es: " + horario);
+                        }
                     }
                     break;
                 case 2:
