@@ -49,33 +49,6 @@ public class ProyectoFinal {
     }
 
 
-        System.out.println("Bienvenido al sistema de administracion de horarios.");
-
-        System.out.print("Ingrese su nombre de usuario: ");
-        String usuario = scanner.nextLine();
-
-        System.out.print("Ingrese su rol (administrador/gerente/empleado): ");
-        String rol = scanner.nextLine();
-
-        while (true) {
-            administrarHorarios(usuario, rol);
-
-            System.out.print("Desea salir del sistema? (si/no): ");
-            String opcion = scanner.nextLine();
-            if (opcion.equalsIgnoreCase("si")) {
-                break;
-            }
-
-            System.out.print("Desea cambiar de rol? (si/no): ");
-            opcion = scanner.nextLine();
-            if (opcion.equalsIgnoreCase("si")) {
-                System.out.print("Ingrese su nuevo rol (administrador/gerente/empleado): ");
-                rol = scanner.nextLine();
-            }
-        }
-
-        System.out.println("Hasta Pronto!!");
-    }
 
     public static void administrarHorarios(String usuario, String rol) {
         System.out.println("Usuario: " + usuario);
