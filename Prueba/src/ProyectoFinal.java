@@ -5,6 +5,8 @@ public class ProyectoFinal {
 
     static HashMap<String, String> nombre_laboral = new HashMap<>();
     static HashMap<String, String> roles = new HashMap<>();
+
+    static HashMap<String, String> tiposcc = new HashMap<>();
     static HashMap<String, String> cedulas = new HashMap<>();
     static HashMap<String, String> horarios = new HashMap<>();
     static HashMap<String, String> mensajes = new HashMap<>();
@@ -12,6 +14,7 @@ public class ProyectoFinal {
     static String nombre;
     static String codigo;
     static String rol;
+    static String tipocc;
     static String cedula;
     static String chat;
     static String horario = "";
@@ -66,13 +69,13 @@ public class ProyectoFinal {
             nombre = nombre_laboral.get(codigo);
             rol = roles.get(codigo);
             System.out.println("...");
-            System.out.println("\nBienvenido al sistema");
+            System.out.println("\nBienvenido al Sistema");
             System.out.println("Nombre: " + nombre);
-            System.out.println("Cedula: " + cedula);
+            System.out.println("Tipo de Documento: " + tipocc);
+            System.out.println("Numero de Documento: " + cedula);
             System.out.println("Rol : " + rol);
 
-
-            administrarHorarios(nombre, rol); //
+            administrarHorarios(rol); //
 
         } else {
             System.out.println("...");
@@ -81,17 +84,47 @@ public class ProyectoFinal {
     }
 
     public static void RegistrarUsuario(Scanner scanner) {
-        System.out.print("Ingrese su codigo de Empleado asignado: ");
+        System.out.println("\nDiligencie los siguientes datos:");
+        System.out.print("\nCodigo de empleado: ");
         codigo = scanner.nextLine();
 
         if (!nombre_laboral.containsKey(codigo)) {
-            System.out.print("Ingrese su nombre: ");
+            System.out.print("Nombre Completo: ");
             nombre = scanner.nextLine();
-            System.out.print("Ingrese su cedula: ");
+            int tipoccInt;
+            do {
+                System.out.println("Seleccione su tipo de Documento: ");
+                System.out.print("1. Cedula de Ciudadania(CC), 2. Tarjeta de Identidad (TI), 3. Pasaporte, 4. Cédula de Extranjería: ");
+                tipoccInt = Integer.parseInt(scanner.nextLine());
+
+                if (tipoccInt >= 1 && tipoccInt <= 4) {
+                    break;
+                } else {
+                    System.out.println("Opcion Invalida. Seleccione 1, 2, 3 o 4");
+                }
+            } while (true);
+
+            switch (tipoccInt) {
+                case 1:
+                    tipocc = "Cedula de Ciudadania(CC)";
+                    break;
+                case 2:
+                    tipocc = "Tarjeta de Identidad (TI)";
+                    break;
+                case 3:
+                    tipocc = "Pasaporte";
+                    break;
+                case 4:
+                    tipocc = "Cédula de Extranjería";
+                    break;
+                default:
+                    tipocc = "desconocido";
+                    break;
+            }
+
+            System.out.print("Numero de Identificacion: ");
             cedula = scanner.nextLine();
-
             int rolInt;
-
             do {
                 System.out.println("Seleccione su Rol: ");
                 System.out.print("1. Administrador, 2. para Coordinador, 3. para Empleado: ");
@@ -116,11 +149,12 @@ public class ProyectoFinal {
                     rol = "Empleado";
                     break;
                 default:
-                    rol = "Desconocido";
+                    rol = "desconocido";
                     break;
             }
 
             nombre_laboral.put(codigo, nombre);
+            tiposcc.put(codigo, tipocc);
             cedulas.put(codigo, cedula);
             roles.put(codigo, rol);
             System.out.println("...");
@@ -130,16 +164,16 @@ public class ProyectoFinal {
         }
     }
 
-    public static void administrarHorarios(String nombre, String rol) {
+    public static void administrarHorarios(String rol) {
 
-        switch (rol.toLowerCase()) {
-            case "administrador":
+        switch (rol) {
+            case "Administrador":
                 administradorOpciones();
                 break;
-            case "gerente":
-                gerenteOpciones();
+            case "Coordinador":
+                coordinadorOpciones();
                 break;
-            case "empleado":
+            case "Empleado":
                 empleadoOpciones();
                 break;
 
@@ -234,11 +268,11 @@ public class ProyectoFinal {
         }
     }
 
-    public static void gerenteOpciones() {
+    public static void coordinadorOpciones() {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\nOpciones disponibles para gerentes:");
+            System.out.println("\nOpciones para Coordinadores:");
             System.out.println("1. Ver horario");
             System.out.println("2. Solicitar cambios en el horario");
             System.out.println("3. Enviar mensaje a un empleado");
@@ -299,7 +333,7 @@ public class ProyectoFinal {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\nOpciones disponibles para empleados:");
+            System.out.println("\nOpciones para Empleados:");
             System.out.println("1. Ver horario");
             System.out.println("2. Salir");
 
@@ -333,4 +367,3 @@ public class ProyectoFinal {
         }
     }
 }
-
