@@ -395,24 +395,105 @@ public class ProyectoFinal {
 
             switch (opcion) {
                 case 1:
+                    System.out.print("Ingrese el codigo del Empleado : ");
+                    codigo = scanner.next();
+                    nombre = nombre_laboral.get(codigo);
+                    horario = horarios.get(codigo);
+                    if (nombre_laboral.containsKey(codigo)) {
+                        scanner.nextLine();
+                        if (horario != null) {
+                            System.out.println("\nNombre: " + nombre);
+                            System.out.println("Horario: " + horario);
+                        } else {
+                            System.out.println("\nEl empleado no tiene parametrizado ningun horario");
+                        }
 
+                    } else {
+                        System.out.println("No existe un empleado con el código " + codigo);
+                    }
                     break;
                 case 2:
-
+                    System.out.print("Ingrese el codigo del Empleado : ");
+                    codigo = scanner.next();
+                    if (nombre_laboral.containsKey(codigo)) {
+                        scanner.nextLine();
+                        System.out.print("Ingrese el horario a registrar: ");
+                        horario = scanner.nextLine();
+                        horarios.put(codigo, horario);
+                        System.out.println("Se ha registrado el horario exitosamente");
+                    } else {
+                        System.out.println("No existe un empleado con el código " + codigo);
+                    }
                     break;
                 case 3:
+                    System.out.print("Ingrese el codigo del Empleado : ");
+                    codigo = scanner.next();
+                    if (nombre_laboral.containsKey(codigo)) {
+                        if (horario != null) {
+                            horario = horarios.get(codigo);
+                            System.out.println("El horario actual del empleado es : " + horario);
+                            scanner.nextLine();
+                            System.out.print("Ingrese el nuevo horario: ");
+                            horario = scanner.nextLine();
+                            horarios.put(codigo, horario);
+                            System.out.println("Se ha modificado el horario exitosamente");
+                        } else {
+                            System.out.println("\nEl empleado no tiene parametrizado ningun horario");
+                        }
 
+                    } else {
+                        System.out.println("No existe un empleado con el código " + codigo);
+                    }
                     break;
                 case 4:
-
+                    System.out.print("Ingrese el codigo del empleado: ");
+                    codigo = scanner.next();
+                    horarios.remove(codigo);
+                    System.out.println("...");
+                    System.out.println("Se ha eliminado el horario exitosamente");
                     break;
                 case 5:
-
+                    if (mensaje2 != null && !mensaje2.isEmpty()) {
+                        mensaje2 = mensajes.get(codigo);
+                        remitente = remitentes.get(codigo);
+                        System.out.println("Tiene el siguiente mensaje : " + mensaje2);
+                    } else {
+                        System.out.println("No tienes mensajes nuevos.");
+                    }
+                    break;
                 case 6:
+                    System.out.print("Ingrese el codigo del Administrador : ");
+                    codigo = scanner.next();
 
+                    if (nombre_laboral.containsKey(codigo)) {
+                        scanner.nextLine();
+
+                        System.out.print("Ingrese el mensaje a enviar: ");
+                        mensaje1 = scanner.nextLine();
+                        mensajes.put(codigo, mensaje1);
+                        remitentes.put(codigo, remitente);
+                        System.out.println("...");
+                        System.out.println("Se envio el mensaje exitosamente al codigo: " + codigo);
+                    } else {
+                        System.out.println("No existe un empleado con el código " + codigo);
+                    }
                     break;
                 case 7:
+                    System.out.print("Ingrese el codigo del Empleado : ");
+                    codigo = scanner.next();
 
+                    if (nombre_laboral.containsKey(codigo)) {
+                        scanner.nextLine();
+
+                        System.out.print("Ingrese el mensaje a enviar: ");
+                        mensaje3 = scanner.nextLine();
+                        mensajes.put(codigo, mensaje3);
+                        remitentes.put(codigo, remitente);
+                        System.out.println("...");
+                        System.out.println("Se envio el mensaje exitosamente al codigo: " + codigo);
+                    } else {
+                        System.out.println("No existe un empleado con el código " + codigo);
+                    }
                     break;
                 case 8:
                     return;
