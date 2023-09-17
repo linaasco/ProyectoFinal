@@ -3,7 +3,6 @@ import java.util.Scanner;
 
 public class ProyectoFinal {
 
-
     static HashMap<String, String> nombre_laboral = new HashMap<>();
     static HashMap<String, String> roles = new HashMap<>();
     static HashMap<String, String> cedulas = new HashMap<>();
@@ -16,12 +15,14 @@ public class ProyectoFinal {
     static String cedula;
     static String chat;
     static String horario = "";
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\n1. Ingresar Usuario");
-            System.out.println("2. Crear Usuario");
+            System.out.println("\nSistema de Registro de Horarios V 0.5");
+            System.out.println("1. Iniciar Sesión");
+            System.out.println("2. Registrarse en el Sistema");
             System.out.println("3. Salir");
 
             System.out.print("Ingrese el numero de la opcion deseada : ");
@@ -30,7 +31,7 @@ public class ProyectoFinal {
 
             switch (opcion) {
                 case 1:
-                    IngresarUsuario(scanner);
+                    IniciarSesion(scanner);
                     break;
 
                 case 2:
@@ -38,36 +39,49 @@ public class ProyectoFinal {
                     break;
 
                 case 3:
-                    System.out.println("Hasta Pronto!!");
-                    return;
+                    System.out.print("¿Está seguro de que desea salir? (si/no): ");
+                    String respuesta = scanner.nextLine().toLowerCase();
+
+                    if (respuesta.equals("si")) {
+                        System.out.println("Hasta Pronto!!");
+                        return;
+                    } else if (respuesta.equals("no")) {
+                        break;
+                    } else {
+                        System.out.println("Respuesta invalida. Ingrese 'si' o 'no'");
+                    }
+                    break;
 
                 default:
-                    System.out.println("Opcion invalida. Por favor, seleccione una opción valida.");
+                    System.out.println("Opcion invalida. Seleccione nuevamente");
                     break;
             }
         }
     }
-    public static void IngresarUsuario(Scanner scanner) {
-        System.out.println("Ingrese el código de usuario");
+
+    public static void IniciarSesion(Scanner scanner) {
+        System.out.print("Ingrese su código de usuario: ");
         codigo = scanner.next();
         if (nombre_laboral.containsKey(codigo)) {
             nombre = nombre_laboral.get(codigo);
-            rol = roles.get(codigo); // Obtener el rol del usuario
-
-            System.out.println("Los datos del usuario con código: " + codigo);
+            rol = roles.get(codigo);
+            System.out.println("...");
+            System.out.println("\nBienvenido al sistema");
             System.out.println("Nombre: " + nombre);
-            System.out.println("Rol :" + rol);
             System.out.println("Cedula: " + cedula);
+            System.out.println("Rol : " + rol);
 
-            administrarHorarios(nombre, rol); // Llamar a la función para administrar horarios
+
+            administrarHorarios(nombre, rol); //
 
         } else {
-            System.out.println("NO existe un usuario con el código " + codigo);
+            System.out.println("...");
+            System.out.println("NO existe ningun usuario con el código " + codigo);
         }
     }
 
     public static void RegistrarUsuario(Scanner scanner) {
-        System.out.print("Ingrese su codigo de usuario: ");
+        System.out.print("Ingrese su codigo de Empleado asignado: ");
         codigo = scanner.nextLine();
 
         if (!nombre_laboral.containsKey(codigo)) {
@@ -75,47 +89,67 @@ public class ProyectoFinal {
             nombre = scanner.nextLine();
             System.out.print("Ingrese su cedula: ");
             cedula = scanner.nextLine();
-            System.out.print("Ingrese su rol: ");
-            rol = scanner.nextLine();
+
+            int rolInt;
+
+            do {
+                System.out.println("Seleccione su Rol: ");
+                System.out.print("1. Administrador, 2. para Coordinador, 3. para Empleado: ");
+                rolInt = Integer.parseInt(scanner.nextLine());
+
+                if (rolInt >= 1 && rolInt <= 3) {
+                    break;
+                } else {
+                    System.out.println("Opcion Invalida. Seleccione 1, 2 o 3");
+                }
+            } while (true);
+
+            String rol;
+            switch (rolInt) {
+                case 1:
+                    rol = "Administrador";
+                    break;
+                case 2:
+                    rol = "Coordinador";
+                    break;
+                case 3:
+                    rol = "Empleado";
+                    break;
+                default:
+                    rol = "Desconocido";
+                    break;
+            }
 
             nombre_laboral.put(codigo, nombre);
             cedulas.put(codigo, cedula);
             roles.put(codigo, rol);
-
+            System.out.println("...");
             System.out.println("Usuario creado exitosamente.");
         } else {
-            System.out.println("El usuario ya existe. Por favor, ingrese otro nombre de usuario.");
+            System.out.println("EL codigo " + codigo +" ya esta en uso. Por favor ingrese un codigo valido.");
         }
     }
-
-
 
     public static void administrarHorarios(String nombre, String rol) {
-        System.out.println("\nBienvenido, " + nombre + ".");
-        System.out.println("Usuario: " + nombre);
-        System.out.println("Rol: " + rol);
 
         switch (rol.toLowerCase()) {
-            case "administrador" :
+            case "administrador":
                 administradorOpciones();
                 break;
-            case "gerente" :
+            case "gerente":
                 gerenteOpciones();
                 break;
-            case "empleado" :
+            case "empleado":
                 empleadoOpciones();
                 break;
-            default :
-                usuarioNoValido();
-                break;
+
         }
     }
-
 
     public static void administradorOpciones() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("\nOpciones disponibles para administradores:");
+            System.out.println("\nOpciones para Administradores:");
             System.out.println("1. Ver Horario");
             System.out.println("2. Crear Horario");
             System.out.println("3. Modificar horario");
@@ -298,10 +332,5 @@ public class ProyectoFinal {
             }
         }
     }
-
-    public static void usuarioNoValido() {
-        System.out.println("...");
-        System.out.println("Usuario no valido.");
-        System.out.println("Por favor revise que el rol este bien escrito o contacte al administrador del sistema.");
-    }
 }
+
