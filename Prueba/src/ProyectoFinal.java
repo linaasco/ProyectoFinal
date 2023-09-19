@@ -543,20 +543,24 @@ public class ProyectoFinal {
 
                     break;
                 case 2:
-                    System.out.println("Ingrese el codigo del Coordinador");
+
+                    System.out.println("Ingrese el codigo del coordinador:");
                     codigo = scanner.next();
-
+                    String codigoC = codigo;
+                    String nombreC = nombre_laboral.get(codigoC);
                     if (nombre_laboral.containsKey(codigo)) {
-                        scanner.nextLine();
+                        System.out.print("Ingrese el código del empleado con el que cambiaria su horario: ");
+                        codigo = scanner.next();
+                        String codigoE = codigo;
+                        nombre = nombre_laboral.get(codigoE);
+                        mensaje2 = "Se solicita cambio de horario con el empleado con el codigo "+ codigoE+" y nombre "+nombre;
+                        mensajes.put(codigoC, mensaje2);
+                        System.out.println("Se envio el mensaje exitosamente al Coordinador: "+nombreC +" con codigo"+ codigoC);
 
-                        System.out.print("Solicite el cambio de horario: ");
-                        mensaje2 = scanner.nextLine();
-                        mensajes.put(codigo, mensaje2);
-                        remitentes.put(codigo, remitente);
-                        System.out.println("...");
-                        System.out.println("Se envio el mensaje exitosamente al Coordinador: "+nombre +" con codigo");
                     } else {
-                        System.out.println("No existe un empleado con el código " + codigo);
+
+                        System.out.println("No hay ningun coordinador con el codigo "+codigoC);
+
                     }
 
                     break;
