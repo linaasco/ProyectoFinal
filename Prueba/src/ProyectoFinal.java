@@ -526,20 +526,14 @@ public class ProyectoFinal {
             switch (opcion) {
                 case 1:
 
-                    nombre = nombre_laboral.get(codigo);
                     horario = horarios.get(codigo);
-                    if (nombre_laboral.containsKey(codigo)) {
-                        scanner.nextLine();
+
                         if (horario != null) {
-                            System.out.println("\nNombre: " + nombre);
-                            System.out.println("Horario: " + horario);
+                            System.out.println("Su Horario es: " + horario);
                         } else {
                             System.out.println("\nUsted no tiene parametrizado ningun horario");
                         }
 
-                    } else {
-                        System.out.println("No existe un empleado con el código " + codigo);
-                    }
 
                     break;
                 case 2:
