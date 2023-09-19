@@ -352,6 +352,7 @@ public class ProyectoFinal {
                 case 6:
                     System.out.print("Ingrese el codigo del Coordinador : ");
                     codigo = scanner.next();
+                    nombre = nombre_laboral.get(codigo);
 
                     if (nombre_laboral.containsKey(codigo)) {
                         scanner.nextLine();
@@ -361,7 +362,7 @@ public class ProyectoFinal {
                         mensajes.put(codigo, mensaje2);
                         remitentes.put(codigo, remitente);
                         System.out.println("...");
-                        System.out.println("Se envio el mensaje exitosamente al codigo: " + codigo);
+                        System.out.println("Se envio el mensaje exitosamente al Coordinador: "+nombre +" con codigo" +codigo);
                     } else {
                         System.out.println("No existe un empleado con el código " + codigo);
                     }
@@ -428,10 +429,11 @@ public class ProyectoFinal {
                 case 3:
                     System.out.print("Ingrese el codigo del Empleado : ");
                     codigo = scanner.next();
+                    nombre = nombre_laboral.get(codigo);
                     if (nombre_laboral.containsKey(codigo)) {
                         if (horario != null) {
                             horario = horarios.get(codigo);
-                            System.out.println("El horario actual del empleado es : " + horario);
+                            System.out.println("El horario actual del empleado "+nombre+ "es : " + horario);
                             scanner.nextLine();
                             System.out.print("Ingrese el nuevo horario: ");
                             horario = scanner.nextLine();
@@ -464,6 +466,7 @@ public class ProyectoFinal {
                 case 6:
                     System.out.print("Ingrese el codigo del Administrador : ");
                     codigo = scanner.next();
+                    nombre = nombre_laboral.get(codigo);
 
                     if (nombre_laboral.containsKey(codigo)) {
                         scanner.nextLine();
@@ -473,7 +476,7 @@ public class ProyectoFinal {
                         mensajes.put(codigo, mensaje1);
                         remitentes.put(codigo, remitente);
                         System.out.println("...");
-                        System.out.println("Se envio el mensaje exitosamente al codigo: " + codigo);
+                        System.out.println("Se envio el mensaje exitosamente al administrador "+ nombre+" con el codigo: " + codigo);
                     } else {
                         System.out.println("No existe un empleado con el código " + codigo);
                     }
@@ -481,6 +484,7 @@ public class ProyectoFinal {
                 case 7:
                     System.out.print("Ingrese el codigo del Empleado : ");
                     codigo = scanner.next();
+                    nombre = nombre_laboral.get(codigo);
 
                     if (nombre_laboral.containsKey(codigo)) {
                         scanner.nextLine();
@@ -490,7 +494,7 @@ public class ProyectoFinal {
                         mensajes.put(codigo, mensaje3);
                         remitentes.put(codigo, remitente);
                         System.out.println("...");
-                        System.out.println("Se envio el mensaje exitosamente al codigo: " + codigo);
+                        System.out.println("Se envio el mensaje exitosamente al empleado"+nombre+"con el codigo: " + codigo);
                     } else {
                         System.out.println("No existe un empleado con el código " + codigo);
                     }
@@ -522,16 +526,70 @@ public class ProyectoFinal {
             switch (opcion) {
                 case 1:
 
+                    nombre = nombre_laboral.get(codigo);
+                    horario = horarios.get(codigo);
+                    if (nombre_laboral.containsKey(codigo)) {
+                        scanner.nextLine();
+                        if (horario != null) {
+                            System.out.println("\nNombre: " + nombre);
+                            System.out.println("Horario: " + horario);
+                        } else {
+                            System.out.println("\nUsted no tiene parametrizado ningun horario");
+                        }
+
+                    } else {
+                        System.out.println("No existe un empleado con el código " + codigo);
+                    }
+
                     break;
                 case 2:
+                    System.out.println("Ingrese el codigo del Coordinador");
+                    codigo = scanner.next();
+
+                    if (nombre_laboral.containsKey(codigo)) {
+                        scanner.nextLine();
+
+                        System.out.print("Solicite el cambio de horario: ");
+                        mensaje2 = scanner.nextLine();
+                        mensajes.put(codigo, mensaje2);
+                        remitentes.put(codigo, remitente);
+                        System.out.println("...");
+                        System.out.println("Se envio el mensaje exitosamente al Coordinador: "+nombre +" con codigo");
+                    } else {
+                        System.out.println("No existe un empleado con el código " + codigo);
+                    }
 
                     break;
+
                 case 3:
-
+                    if (mensaje3 != null && !mensaje3.isEmpty()) {
+                        mensaje3 = mensajes.get(codigo);
+                        remitente = remitentes.get(codigo);
+                        System.out.println("Tiene el siguiente mensaje : " + mensaje3);
+                    } else {
+                        System.out.println("No tienes mensajes nuevos.");
+                    }
                     break;
+
                 case 4:
+                    System.out.print("Ingrese el codigo del Coordinador : ");
+                    codigo = scanner.next();
+                    nombre = nombre_laboral.get(codigo);
 
+                    if (nombre_laboral.containsKey(codigo)) {
+                        scanner.nextLine();
+
+                        System.out.print("Ingrese el mensaje: ");
+                        mensaje2 = scanner.nextLine();
+                        mensajes.put(codigo, mensaje2);
+                        remitentes.put(codigo, remitente);
+                        System.out.println("...");
+                        System.out.println("Se envio el mensaje exitosamente al Coordinador: "+nombre +" con codigo"+ codigo);
+                    } else {
+                        System.out.println("No existe un empleado con el código " + codigo);
+                    }
                     break;
+
                 case 5:
                     return;
                 default:
