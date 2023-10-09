@@ -4,47 +4,45 @@ import java.util.Set;
 
 public class ProyectoFinal {
 
-    static HashMap<String, String> nombre_laboral = new HashMap<>();
+    static HashMap<String, String> nombresLaboral = new HashMap<>();
     static HashMap<String, String> roles = new HashMap<>();
-    static HashMap<String, String> tiposcc = new HashMap<>();
-    static HashMap<String, String> cedulas = new HashMap<>();
+    static HashMap<String, String> tiposDocs = new HashMap<>();
+    static HashMap<String, String> numCedulas = new HashMap<>();
     static HashMap<String, String> horarios = new HashMap<>();
     static HashMap<String, String> mensajes = new HashMap<>();
     static HashMap<String, String> remitentes = new HashMap<>();
 
-    static String nombre;
     static String codigo;
+    static String nombre;
     static String rol;
-    static String tipocc;
-    static String cedula;
+    static String tipoDoc;
+    static String numCedula;
+    static String horario = "";
     static String mensaje1;
     static String mensaje2;
     static String mensaje3;
     static String remitente;
-    static String horario = "";
+
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
 
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("\nSistema de Registro de Horarios V 0.5");
+            System.out.println("\nSistema de Registro de Horarios V 0.7");
             System.out.println("1. Iniciar Sesión");
             System.out.println("2. Registrarse en el Sistema");
             System.out.println("3. Salir");
-
             System.out.print("Ingrese el numero de la opcion deseada : ");
             int opcion = scanner.nextInt();
             scanner.nextLine();
 
             switch (opcion) {
                 case 1:
-                    IniciarSesion(scanner);
+                    iniciarSesion(scanner);
                     break;
-
                 case 2:
-                    RegistrarUsuario(scanner);
+                    registrarUsuario(scanner);
                     break;
-
                 case 3:
                     System.out.print("¿Está seguro de que desea salir? (si/no): ");
                     String respuesta = scanner.nextLine().toLowerCase();
@@ -58,7 +56,6 @@ public class ProyectoFinal {
                         System.out.println("Respuesta invalida. Ingrese 'si' o 'no'");
                     }
                     break;
-
                 default:
                     System.out.println("Opcion invalida. Seleccione nuevamente");
                     break;
@@ -66,102 +63,74 @@ public class ProyectoFinal {
         }
     }
 
-    public static void IniciarSesion(Scanner scanner) {
+    public static void iniciarSesion(Scanner scanner) {
+
         System.out.print("Ingrese su código de usuario: ");
         codigo = scanner.next();
-        if (nombre_laboral.containsKey(codigo)) {
-            nombre = nombre_laboral.get(codigo);
-            tipocc = tiposcc.get(codigo);
-            cedula = cedulas.get(codigo);
+        if (nombresLaboral.containsKey(codigo)) {
+            nombre = nombresLaboral.get(codigo);
+            tipoDoc = tiposDocs.get(codigo);
+            numCedula = numCedulas.get(codigo);
             rol = roles.get(codigo);
             System.out.println("...");
             System.out.println("\nBienvenido al Sistema");
             System.out.println("Nombre: " + nombre);
-            System.out.println("Tipo de Documento: " + tipocc);
-            System.out.println("Numero de Documento: " + cedula);
+            System.out.println("Tipo de Documento: " + tipoDoc);
+            System.out.println("Numero de Documento: " + numCedula);
             System.out.println("Rol : " + rol);
-
-            administrarHorarios(rol); //
-
+            gestionRoles(rol);
         } else {
             System.out.println("...");
             System.out.println("NO existe ningun usuario con el código " + codigo);
         }
     }
 
-    public static void RegistrarUsuario(Scanner scanner) {
+    public static void registrarUsuario(Scanner scanner) {
         System.out.println("\nDiligencie los siguientes datos:");
         System.out.print("\nCodigo de empleado: ");
         codigo = scanner.nextLine();
-
-        if (!nombre_laboral.containsKey(codigo)) {
+        if (!nombresLaboral.containsKey(codigo)) {
             System.out.print("Nombre Completo: ");
             nombre = scanner.nextLine();
-            int tipoccInt;
-            do {
+            int tipoDocInt;
+            while (true){
                 System.out.println("Seleccione su tipo de Documento: ");
-                System.out.print("1. Cedula de Ciudadania(CC), 2. Tarjeta de Identidad (TI), 3. Pasaporte, 4. Cédula de Extranjería: ");
-                tipoccInt = Integer.parseInt(scanner.nextLine());
-
-                if (tipoccInt >= 1 && tipoccInt <= 4) {
+                System.out.print("1. Cedula de Ciudadania(CC), 2. Cédula de Extranjería(CE), 3. Pasaporte: ");
+                tipoDocInt = Integer.parseInt(scanner.nextLine());
+                if (tipoDocInt >=1 && tipoDocInt <= 3) {
                     break;
                 } else {
-                    System.out.println("Opcion Invalida. Seleccione 1, 2, 3 o 4");
+                    System.out.println("Opcion Invalida. Seleccione 1, 2 o 3");
                 }
-            } while (true);
-
-            switch (tipoccInt) {
-                case 1:
-                    tipocc = "Cedula de Ciudadania(CC)";
-                    break;
-                case 2:
-                    tipocc = "Tarjeta de Identidad (TI)";
-                    break;
-                case 3:
-                    tipocc = "Pasaporte";
-                    break;
-                case 4:
-                    tipocc = "Cédula de Extranjería";
-                    break;
-                default:
-                    tipocc = "desconocido";
-                    break;
             }
-
+            String tipoDoc = switch (tipoDocInt) {
+                case 1 -> "Cedula de Ciudadania(CC)";
+                case 2 -> "Cédula de Extranjería(CE)";
+                case 3 -> "Pasaporte";
+                default -> "desconocido";
+            };
             System.out.print("Numero de Identificacion: ");
-            cedula = scanner.nextLine();
+            numCedula = scanner.nextLine();
             int rolInt;
-            do {
+            while (true) {
                 System.out.println("Seleccione su Rol: ");
-                System.out.print("1. Administrador, 2. para Coordinador, 3. para Empleado: ");
+                System.out.print("1. Administrador, 2. Coordinador, 3. Empleado: ");
                 rolInt = Integer.parseInt(scanner.nextLine());
-
                 if (rolInt >= 1 && rolInt <= 3) {
                     break;
                 } else {
                     System.out.println("Opcion Invalida. Seleccione 1, 2 o 3");
                 }
-            } while (true);
-
-            String rol;
-            switch (rolInt) {
-                case 1:
-                    rol = "Administrador";
-                    break;
-                case 2:
-                    rol = "Coordinador";
-                    break;
-                case 3:
-                    rol = "Empleado";
-                    break;
-                default:
-                    rol = "desconocido";
-                    break;
             }
-
-            nombre_laboral.put(codigo, nombre);
-            tiposcc.put(codigo, tipocc);
-            cedulas.put(codigo, cedula);
+            String rol = switch (rolInt) {
+                case 1 -> "Administrador";
+                case 2 -> "Coordinador";
+                case 3 -> "Empleado";
+                default -> "desconocido";
+            };
+            nombresLaboral.put(codigo, nombre);
+            tiposDocs.put(codigo, tipoDoc);
+            numCedulas.put(codigo, numCedula);
             roles.put(codigo, rol);
             System.out.println("...");
             System.out.println("Usuario creado exitosamente.");
@@ -170,7 +139,7 @@ public class ProyectoFinal {
         }
     }
 
-    public static void administrarHorarios(String rol) {
+    public static void gestionRoles(String rol) {
 
         switch (rol) {
             case "Administrador":
@@ -182,7 +151,6 @@ public class ProyectoFinal {
             case "Empleado":
                 empleadoOpciones();
                 break;
-
         }
     }
 
@@ -197,7 +165,6 @@ public class ProyectoFinal {
             System.out.println("5. Revisar mensajes");
             System.out.println("6. Enviar mensaje a coordinador");
             System.out.println("7. Salir");
-
             System.out.print("Ingrese el numero de la opcion deseada: ");
             int opcion = scanner.nextInt();
             scanner.nextLine();
@@ -206,42 +173,42 @@ public class ProyectoFinal {
                 case 1:
                     System.out.print("Ingrese el codigo del empleado: ");
                     codigo = scanner.next();
-                    if (nombre_laboral.containsKey(codigo)) {
-                        nombre = nombre_laboral.get(codigo);
-                        tipocc = tiposcc.get(codigo);
-                        cedula = cedulas.get(codigo);
+                    scanner.nextLine();
+                    if (nombresLaboral.containsKey(codigo)) {
+                        nombre = nombresLaboral.get(codigo);
+                        tipoDoc = tiposDocs.get(codigo);
+                        numCedula = numCedulas.get(codigo);
                         rol = roles.get(codigo);
                         System.out.println("\nNombre: " + nombre);
-                        System.out.println("Tipo de Documento: " + tipocc);
-                        System.out.println("Numero de Documento: " + cedula);
+                        System.out.println("Tipo de Documento: " + tipoDoc);
+                        System.out.println("Numero de Documento: " + numCedula);
                         System.out.println("Rol : " + rol);
+                    } else {
+                        System.out.println("...");
+                        System.out.println("NO existe ningun usuario con el código " + codigo);
                     }
                     break;
                 case 2:
-                    Set<String> codigos = nombre_laboral.keySet();
+                    Set<String> codigos = nombresLaboral.keySet();
                     System.out.println();
                     System.out.println("Numero de empleados registrados: " + codigos.size());
-
                     for (String codigo : codigos) {
-                        nombre = nombre_laboral.get(codigo);
+                        nombre = nombresLaboral.get(codigo);
                         rol = roles.get(codigo);
                         System.out.println();
-                        System.out.println("Nombre: " + nombre);
-                        System.out.println("Rol : " + rol);
+                        System.out.println("- Nombre: " + nombre + ". Codigo: " + codigo + ". Rol: " + rol);
                     }
                     break;
                 case 3:
                     System.out.print("Ingrese el codigo del empleado: ");
                     codigo = scanner.next();
-                    if (nombre_laboral.containsKey(codigo)) {
-                        scanner.nextLine();
-
+                    scanner.nextLine();
+                    if (nombresLaboral.containsKey(codigo)) {
                         System.out.println("Seleccione qué aspecto desea modificar:");
                         System.out.println("1. Nombre");
                         System.out.println("2. Tipo de Documento");
                         System.out.println("3. Número de Documento");
                         System.out.println("4. Rol");
-
                         int opcionModificar = scanner.nextInt();
                         scanner.nextLine();
 
@@ -249,79 +216,57 @@ public class ProyectoFinal {
                             case 1:
                                 System.out.print("Ingrese el nuevo nombre del empleado: ");
                                 nombre = scanner.nextLine();
-                                nombre_laboral.put(codigo, nombre);
+                                nombresLaboral.put(codigo, nombre);
                                 System.out.println("Nombre modificado con éxito.");
                                 break;
                             case 2:
-                                int tipoccInt;
-                                do {
+                                int tipoDocInt;
+                                while (true){
                                     System.out.println("Seleccione el nuevo tipo de documento: ");
-                                    System.out.print("1. Cedula de Ciudadania(CC), 2. Tarjeta de Identidad (TI), 3. Pasaporte, 4. Cédula de Extranjería: ");
-                                    tipoccInt = Integer.parseInt(scanner.nextLine());
-
-                                    if (tipoccInt >= 1 && tipoccInt <= 4) {
+                                    System.out.print("1. Cedula de Ciudadania(CC), 2. Cédula de Extranjería(CE), 3. Pasaporte: ");
+                                    tipoDocInt = Integer.parseInt(scanner.nextLine());
+                                    if (tipoDocInt >=1 && tipoDocInt <= 3) {
                                         break;
                                     } else {
-                                        System.out.println("Opcion Invalida. Seleccione 1, 2, 3 o 4");
+                                        System.out.println("Opcion Invalida. Seleccione 1, 2 o 3");
                                     }
-                                } while (true);
-
-                                switch (tipoccInt) {
-                                    case 1:
-                                        tipocc = "Cedula de Ciudadania(CC)";
-                                        break;
-                                    case 2:
-                                        tipocc = "Tarjeta de Identidad (TI)";
-                                        break;
-                                    case 3:
-                                        tipocc = "Pasaporte";
-                                        break;
-                                    case 4:
-                                        tipocc = "Cédula de Extranjería";
-                                        break;
-                                    default:
-                                        tipocc = "desconocido";
-                                        break;
                                 }
-                                    tiposcc.put(codigo, tipocc);
-                                    System.out.println("Tipo de documento modificado con éxito.");
+                                String tipoDoc = switch (tipoDocInt) {
+                                    case 1 -> "Cedula de Ciudadania(CC)";
+                                    case 2 -> "Cédula de Extranjería(CE)";
+                                    case 3 -> "Pasaporte";
+                                    default -> "desconocido";
+                                };
+                                tiposDocs.put(codigo, tipoDoc);
+                                System.out.println("Tipo de documento modificado con éxito.");
                                 break;
                             case 3:
                                 System.out.print("Ingrese el nuevo numero de documento: ");
-                                cedula = scanner.nextLine();
-                                cedulas.put(codigo, cedula);
+                                numCedula = scanner.nextLine();
+                                numCedulas.put(codigo, numCedula);
                                 System.out.println("Numero de documento modificado con éxito..");
                                 break;
                             case 4:
                                 int rolInt;
-                                do {
+                                while (true) {
                                     System.out.println("Seleccione el nuevo Rol: ");
-                                    System.out.print("1. Administrador, 2. para Coordinador, 3. para Empleado: ");
+                                    System.out.print("1. Administrador, 2. Coordinador, 3. Empleado: ");
                                     rolInt = Integer.parseInt(scanner.nextLine());
-
                                     if (rolInt >= 1 && rolInt <= 3) {
                                         break;
                                     } else {
                                         System.out.println("Opcion Invalida. Seleccione 1, 2 o 3");
                                     }
-                                } while (true);
-
-                                switch (rolInt) {
-                                    case 1:
-                                        rol = "Administrador";
-                                        break;
-                                    case 2:
-                                        rol = "Coordinador";
-                                        break;
-                                    case 3:
-                                        rol = "Empleado";
-                                        break;
-                                    default:
-                                        rol = "desconocido";
-                                        break;
                                 }
+                                String rol = switch (rolInt) {
+                                    case 1 -> "Administrador";
+                                    case 2 -> "Coordinador";
+                                    case 3 -> "Empleado";
+                                    default -> "desconocido";
+                                };
                                 roles.put(codigo, rol);
                                 System.out.println("Rol modificado con éxito.");
+                                break;
                             default:
                                 System.out.println("Opción inválida.");
                                 break;
@@ -333,12 +278,26 @@ public class ProyectoFinal {
                 case 4:
                     System.out.print("Ingrese el codigo del empleado: ");
                     codigo = scanner.next();
-                    nombre_laboral.remove(codigo);
-                    tiposcc.remove(codigo);
-                    cedulas.remove(codigo);
-                    roles.remove(codigo);
-                    System.out.println("...");
-                    System.out.println("Se ha eliminado el empleado exitosamente");
+                    scanner.nextLine();
+                    if (nombresLaboral.containsKey(codigo)) {
+                        System.out.print("¿Está seguro que desea eliminar al empleado? (si/no): ");
+                        String respuesta = scanner.nextLine().toLowerCase();
+                        if (respuesta.equals("si")) {
+                            nombresLaboral.remove(codigo);
+                            tiposDocs.remove(codigo);
+                            numCedulas.remove(codigo);
+                            roles.remove(codigo);
+                            System.out.println("...");
+                            System.out.println("Se ha eliminado el empleado exitosamente");
+                        } else if (respuesta.equals("no")) {
+                            System.out.println("No se ha eliminado al usuario");
+                        } else {
+                            System.out.println("Respuesta invalida. Ingrese 'si' o 'no'");
+                        }
+                    } else {
+                        System.out.println("...");
+                        System.out.println("NO existe ningun usuario con el código " + codigo);
+                    }
                     break;
                 case 5:
                     if (mensaje1 != null && !mensaje1.isEmpty()) {
@@ -352,9 +311,9 @@ public class ProyectoFinal {
                 case 6:
                     System.out.print("Ingrese el codigo del Coordinador : ");
                     codigo = scanner.next();
-                    nombre = nombre_laboral.get(codigo);
+                    nombre = nombresLaboral.get(codigo);
 
-                    if (nombre_laboral.containsKey(codigo)) {
+                    if (nombresLaboral.containsKey(codigo)) {
                         scanner.nextLine();
 
                         System.out.print("Ingrese el mensaje a enviar: ");
@@ -378,7 +337,6 @@ public class ProyectoFinal {
 
     public static void coordinadorOpciones() {
         Scanner scanner = new Scanner(System.in);
-
         while (true) {
             System.out.println("\nOpciones para Coordinadores:");
             System.out.println("1. Ver Horario de Empleado");
@@ -389,7 +347,6 @@ public class ProyectoFinal {
             System.out.println("6. Enviar mensaje a Administrador");
             System.out.println("7. Enviar mensaje a Empleado");
             System.out.println("8. Salir");
-
             System.out.print("Ingrese el numero de la opcion deseada: ");
             int opcion = scanner.nextInt();
             scanner.nextLine();
@@ -398,17 +355,15 @@ public class ProyectoFinal {
                 case 1:
                     System.out.print("Ingrese el codigo del Empleado : ");
                     codigo = scanner.next();
-                    nombre = nombre_laboral.get(codigo);
-                    horario = horarios.get(codigo);
-                    if (nombre_laboral.containsKey(codigo)) {
-                        scanner.nextLine();
+                    scanner.nextLine();
+                    if (nombresLaboral.containsKey(codigo)) {
+                        nombre = nombresLaboral.get(codigo);
+                        horario = horarios.get(codigo);
                         if (horario != null) {
-                            System.out.println("\nNombre: " + nombre);
-                            System.out.println("Horario: " + horario);
+                            System.out.println("\nEl empleado " + nombre + " tiene asignado el horario: "+ horario);
                         } else {
-                            System.out.println("\nEl empleado no tiene parametrizado ningun horario");
+                            System.out.println("\nEl empleado " + nombre + " NO tiene asignado ningun horario");
                         }
-
                     } else {
                         System.out.println("No existe un empleado con el código " + codigo);
                     }
@@ -416,25 +371,24 @@ public class ProyectoFinal {
                 case 2:
                     System.out.print("Ingrese el codigo del Empleado : ");
                     codigo = scanner.next();
-                    if (nombre_laboral.containsKey(codigo)) {
-                        scanner.nextLine();
-                        System.out.print("Ingrese el horario a registrar: ");
+                    scanner.nextLine();
+                    if (nombresLaboral.containsKey(codigo)) {
+                        System.out.print("Ingrese el horario a asignar: ");
                         horario = scanner.nextLine();
                         horarios.put(codigo, horario);
-                        System.out.println("Se ha registrado el horario exitosamente");
+                        System.out.println("Se ha asignado el horario exitosamente");
                     } else {
                         System.out.println("No existe un empleado con el código " + codigo);
                     }
                     break;
                 case 3:
                     System.out.print("Ingrese el codigo del Empleado : ");
-                    codigo = scanner.next();
-                    nombre = nombre_laboral.get(codigo);
-                    if (nombre_laboral.containsKey(codigo)) {
+                    codigo = scanner.nextLine();
+                    if (nombresLaboral.containsKey(codigo)) {
+                        nombre = nombresLaboral.get(codigo);
                         if (horario != null) {
                             horario = horarios.get(codigo);
-                            System.out.println("El horario actual del empleado "+nombre+ "es : " + horario);
-                            scanner.nextLine();
+                            System.out.println("El horario asignado del empleado "+nombre+ " es : " + horario);
                             System.out.print("Ingrese el nuevo horario: ");
                             horario = scanner.nextLine();
                             horarios.put(codigo, horario);
@@ -442,7 +396,6 @@ public class ProyectoFinal {
                         } else {
                             System.out.println("\nEl empleado no tiene parametrizado ningun horario");
                         }
-
                     } else {
                         System.out.println("No existe un empleado con el código " + codigo);
                     }
@@ -450,9 +403,30 @@ public class ProyectoFinal {
                 case 4:
                     System.out.print("Ingrese el codigo del empleado: ");
                     codigo = scanner.next();
-                    horarios.remove(codigo);
-                    System.out.println("...");
-                    System.out.println("Se ha eliminado el horario exitosamente");
+                    scanner.nextLine();
+                    if (nombresLaboral.containsKey(codigo)) {
+                        nombre = nombresLaboral.get(codigo);
+                        if (horario != null) {
+                            horario = horarios.get(codigo);
+                            System.out.println("\nEl empleado " + nombre + " tiene asignado el horario: "+ horario);
+                            System.out.print("¿Está seguro que desea eliminar el horario? (si/no): ");
+                            String respuesta = scanner.nextLine().toLowerCase();
+                            if (respuesta.equals("si")) {
+                                horarios.remove(codigo);
+                                System.out.println("...");
+                                System.out.println("Se ha eliminado el horario exitosamente");
+                            } else if (respuesta.equals("no")) {
+                                System.out.println("No se ha eliminado al horario");
+                            } else {
+                                System.out.println("Respuesta invalida. Ingrese 'si' o 'no'");
+                            }
+                        } else {
+                            System.out.println("\nEl empleado no tiene asignado ningun horario");
+                        }
+                    } else {
+                        System.out.println("...");
+                        System.out.println("NO existe ningun usuario con el código " + codigo);
+                    }
                     break;
                 case 5:
                     if (mensaje2 != null && !mensaje2.isEmpty()) {
@@ -466,9 +440,9 @@ public class ProyectoFinal {
                 case 6:
                     System.out.print("Ingrese el codigo del Administrador : ");
                     codigo = scanner.next();
-                    nombre = nombre_laboral.get(codigo);
+                    nombre = nombresLaboral.get(codigo);
 
-                    if (nombre_laboral.containsKey(codigo)) {
+                    if (nombresLaboral.containsKey(codigo)) {
                         scanner.nextLine();
 
                         System.out.print("Ingrese el mensaje a enviar: ");
@@ -484,9 +458,9 @@ public class ProyectoFinal {
                 case 7:
                     System.out.print("Ingrese el codigo del Empleado : ");
                     codigo = scanner.next();
-                    nombre = nombre_laboral.get(codigo);
+                    nombre = nombresLaboral.get(codigo);
 
-                    if (nombre_laboral.containsKey(codigo)) {
+                    if (nombresLaboral.containsKey(codigo)) {
                         scanner.nextLine();
 
                         System.out.print("Ingrese el mensaje a enviar: ");
@@ -510,7 +484,6 @@ public class ProyectoFinal {
 
     public static void empleadoOpciones() {
         Scanner scanner = new Scanner(System.in);
-
         while (true) {
             System.out.println("\nOpciones para Empleados:");
             System.out.println("1. Ver horario");
@@ -518,47 +491,36 @@ public class ProyectoFinal {
             System.out.println("3. Revisar mensajes");
             System.out.println("4. Enviar mensaje a coordinador");
             System.out.println("5. Salir");
-
             System.out.print("Ingrese el numero de la opcion deseada: ");
             int opcion = scanner.nextInt();
             scanner.nextLine();
 
             switch (opcion) {
                 case 1:
-
                     horario = horarios.get(codigo);
-
                         if (horario != null) {
                             System.out.println("Su Horario es: " + horario);
                         } else {
                             System.out.println("\nUsted no tiene parametrizado ningun horario");
                         }
-
-
                     break;
                 case 2:
-
                     System.out.println("Ingrese el codigo del coordinador:");
                     codigo = scanner.next();
                     String codigoC = codigo;
-                    String nombreC = nombre_laboral.get(codigoC);
-                    if (nombre_laboral.containsKey(codigo)) {
+                    String nombreC = nombresLaboral.get(codigoC);
+                    if (nombresLaboral.containsKey(codigo)) {
                         System.out.print("Ingrese el código del empleado con el que cambiaria su horario: ");
                         codigo = scanner.next();
                         String codigoE = codigo;
-                        nombre = nombre_laboral.get(codigoE);
+                        nombre = nombresLaboral.get(codigoE);
                         mensaje2 = "Se solicita cambio de horario con el empleado con el codigo "+ codigoE+" y nombre "+nombre;
                         mensajes.put(codigoC, mensaje2);
                         System.out.println("Se envio el mensaje exitosamente al Coordinador: "+nombreC +" con codigo"+ codigoC);
-
                     } else {
-
                         System.out.println("No hay ningun coordinador con el codigo "+codigoC);
-
                     }
-
                     break;
-
                 case 3:
                     if (mensaje3 != null && !mensaje3.isEmpty()) {
                         mensaje3 = mensajes.get(codigo);
@@ -568,13 +530,12 @@ public class ProyectoFinal {
                         System.out.println("No tienes mensajes nuevos.");
                     }
                     break;
-
                 case 4:
                     System.out.print("Ingrese el codigo del Coordinador : ");
                     codigo = scanner.next();
-                    nombre = nombre_laboral.get(codigo);
+                    nombre = nombresLaboral.get(codigo);
 
-                    if (nombre_laboral.containsKey(codigo)) {
+                    if (nombresLaboral.containsKey(codigo)) {
                         scanner.nextLine();
 
                         System.out.print("Ingrese el mensaje: ");
@@ -587,7 +548,6 @@ public class ProyectoFinal {
                         System.out.println("No existe un empleado con el código " + codigo);
                     }
                     break;
-
                 case 5:
                     return;
                 default:
