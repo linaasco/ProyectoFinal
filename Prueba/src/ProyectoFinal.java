@@ -1,5 +1,6 @@
-import java.util.HashMap;
 import java.util.Scanner;
+import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Set;
 
 public class ProyectoFinal {
@@ -9,8 +10,7 @@ public class ProyectoFinal {
     static HashMap<String, String> tiposDocs = new HashMap<>();
     static HashMap<String, String> numCedulas = new HashMap<>();
     static HashMap<String, String> horarios = new HashMap<>();
-    static HashMap<String, String> mensajes = new HashMap<>();
-    static HashMap<String, String> remitentes = new HashMap<>();
+    static HashMap<String, ArrayList<String>> mensajes = new HashMap<>();
 
     static String codigo;
     static String nombre;
@@ -18,11 +18,8 @@ public class ProyectoFinal {
     static String tipoDoc;
     static String numCedula;
     static String horario = "";
-    static String mensaje1;
-    static String mensaje2;
-    static String mensaje3;
-    static String remitente;
-
+    static String mensaje = "";
+    static String codigoDestinatario;
 
     public static void main(String[] args) {
 
@@ -300,30 +297,36 @@ public class ProyectoFinal {
                     }
                     break;
                 case 5:
-                    if (mensaje1 != null && !mensaje1.isEmpty()) {
-                        mensaje1 = mensajes.get(codigo);
-                        remitente = remitentes.get(codigo);
-                        System.out.println("Tiene el siguiente mensaje : " + mensaje1);
+                    if (mensajes.containsKey(codigo)) {
+                        ArrayList<String> listaMensajes = mensajes.get(codigo);
+                        System.out.println("Tiene los siguientes mensajes:");
+                        for (String mensaje : listaMensajes) {
+                            System.out.println("- " + mensaje);
+                        }
                     } else {
-                        System.out.println("No tienes mensajes nuevos.");
+                        System.out.println("\nNo tiene mensajes");
                     }
                     break;
                 case 6:
-                    System.out.print("Ingrese el codigo del Coordinador : ");
-                    codigo = scanner.next();
-                    nombre = nombresLaboral.get(codigo);
-
-                    if (nombresLaboral.containsKey(codigo)) {
+                    System.out.print("Ingrese el codigo del Coordinador: ");
+                    codigoDestinatario = scanner.next();
+                    if (nombresLaboral.containsKey(codigoDestinatario)) {
+                        nombre = nombresLaboral.get(codigo);
                         scanner.nextLine();
-
-                        System.out.print("Ingrese el mensaje a enviar: ");
-                        mensaje2 = scanner.nextLine();
-                        mensajes.put(codigo, mensaje2);
-                        remitentes.put(codigo, remitente);
-                        System.out.println("...");
-                        System.out.println("Se envio el mensaje exitosamente al Coordinador: "+nombre +" con codigo" +codigo);
+                        System.out.print("Ingrese el mensaje: ");
+                        mensaje = scanner.nextLine();
+                        String mensajeCompleto = "De: " + nombre + ". Mensaje: " + mensaje;
+                        if (mensajes.containsKey(codigoDestinatario)) {
+                            mensajes.get(codigoDestinatario).add(mensajeCompleto);
+                        } else {
+                            ArrayList <String> listaMensajes = new ArrayList<>();
+                            listaMensajes.add(mensajeCompleto);
+                            mensajes.put(codigoDestinatario, listaMensajes);
+                        }
+                        System.out.println("Se envió el mensaje.");
                     } else {
-                        System.out.println("No existe un empleado con el código " + codigo);
+                        System.out.println("...");
+                        System.out.println("NO existe ningun usuario con el código " + codigoDestinatario);
                     }
                     break;
                 case 7:
@@ -429,48 +432,58 @@ public class ProyectoFinal {
                     }
                     break;
                 case 5:
-                    if (mensaje2 != null && !mensaje2.isEmpty()) {
-                        mensaje2 = mensajes.get(codigo);
-                        remitente = remitentes.get(codigo);
-                        System.out.println("Tiene el siguiente mensaje : " + mensaje2);
+                    if (mensajes.containsKey(codigo)) {
+                        ArrayList<String> listaMensajes = mensajes.get(codigo);
+                        System.out.println("Tiene los siguientes mensajes:");
+                        for (String mensaje : listaMensajes) {
+                            System.out.println("- " + mensaje);
+                        }
                     } else {
-                        System.out.println("No tienes mensajes nuevos.");
+                        System.out.println("\nNo tiene mensajes");
                     }
                     break;
                 case 6:
-                    System.out.print("Ingrese el codigo del Administrador : ");
-                    codigo = scanner.next();
-                    nombre = nombresLaboral.get(codigo);
-
-                    if (nombresLaboral.containsKey(codigo)) {
+                    System.out.print("Ingrese el codigo del Administrador: ");
+                    codigoDestinatario = scanner.next();
+                    if (nombresLaboral.containsKey(codigoDestinatario)) {
+                        nombre = nombresLaboral.get(codigo);
                         scanner.nextLine();
-
-                        System.out.print("Ingrese el mensaje a enviar: ");
-                        mensaje1 = scanner.nextLine();
-                        mensajes.put(codigo, mensaje1);
-                        remitentes.put(codigo, remitente);
-                        System.out.println("...");
-                        System.out.println("Se envio el mensaje exitosamente al administrador "+ nombre+" con el codigo: " + codigo);
+                        System.out.print("Ingrese el mensaje: ");
+                        mensaje = scanner.nextLine();
+                        String mensajeCompleto = "De: " + nombre + ". Mensaje: " + mensaje;
+                        if (mensajes.containsKey(codigoDestinatario)) {
+                            mensajes.get(codigoDestinatario).add(mensajeCompleto);
+                        } else {
+                            ArrayList <String> listaMensajes = new ArrayList<>();
+                            listaMensajes.add(mensajeCompleto);
+                            mensajes.put(codigoDestinatario, listaMensajes);
+                        }
+                        System.out.println("Se envió el mensaje.");
                     } else {
-                        System.out.println("No existe un empleado con el código " + codigo);
+                        System.out.println("...");
+                        System.out.println("NO existe ningun usuario con el código " + codigoDestinatario);
                     }
                     break;
                 case 7:
-                    System.out.print("Ingrese el codigo del Empleado : ");
-                    codigo = scanner.next();
-                    nombre = nombresLaboral.get(codigo);
-
-                    if (nombresLaboral.containsKey(codigo)) {
+                    System.out.print("Ingrese el codigo del Empleado: ");
+                    codigoDestinatario = scanner.next();
+                    if (nombresLaboral.containsKey(codigoDestinatario)) {
+                        nombre = nombresLaboral.get(codigo);
                         scanner.nextLine();
-
-                        System.out.print("Ingrese el mensaje a enviar: ");
-                        mensaje3 = scanner.nextLine();
-                        mensajes.put(codigo, mensaje3);
-                        remitentes.put(codigo, remitente);
-                        System.out.println("...");
-                        System.out.println("Se envio el mensaje exitosamente al empleado"+nombre+"con el codigo: " + codigo);
+                        System.out.print("Ingrese el mensaje: ");
+                        mensaje = scanner.nextLine();
+                        String mensajeCompleto = "De: " + nombre + ". Mensaje: " + mensaje;
+                        if (mensajes.containsKey(codigoDestinatario)) {
+                            mensajes.get(codigoDestinatario).add(mensajeCompleto);
+                        } else {
+                            ArrayList <String> listaMensajes = new ArrayList<>();
+                            listaMensajes.add(mensajeCompleto);
+                            mensajes.put(codigoDestinatario, listaMensajes);
+                        }
+                        System.out.println("Se envió el mensaje.");
                     } else {
-                        System.out.println("No existe un empleado con el código " + codigo);
+                        System.out.println("...");
+                        System.out.println("NO existe ningun usuario con el código " + codigoDestinatario);
                     }
                     break;
                 case 8:
@@ -487,10 +500,9 @@ public class ProyectoFinal {
         while (true) {
             System.out.println("\nOpciones para Empleados:");
             System.out.println("1. Ver horario");
-            System.out.println("2. Solicitar cambio de horario");
-            System.out.println("3. Revisar mensajes");
-            System.out.println("4. Enviar mensaje a coordinador");
-            System.out.println("5. Salir");
+            System.out.println("2. Revisar mensajes");
+            System.out.println("3. Enviar mensaje a coordinador");
+            System.out.println("4. Salir");
             System.out.print("Ingrese el numero de la opcion deseada: ");
             int opcion = scanner.nextInt();
             scanner.nextLine();
@@ -499,56 +511,45 @@ public class ProyectoFinal {
                 case 1:
                     horario = horarios.get(codigo);
                         if (horario != null) {
-                            System.out.println("Su Horario es: " + horario);
+                            System.out.println("\nSu Horario es: " + horario);
                         } else {
                             System.out.println("\nUsted no tiene parametrizado ningun horario");
                         }
                     break;
                 case 2:
-                    System.out.println("Ingrese el codigo del coordinador:");
-                    codigo = scanner.next();
-                    String codigoC = codigo;
-                    String nombreC = nombresLaboral.get(codigoC);
-                    if (nombresLaboral.containsKey(codigo)) {
-                        System.out.print("Ingrese el código del empleado con el que cambiaria su horario: ");
-                        codigo = scanner.next();
-                        String codigoE = codigo;
-                        nombre = nombresLaboral.get(codigoE);
-                        mensaje2 = "Se solicita cambio de horario con el empleado con el codigo "+ codigoE+" y nombre "+nombre;
-                        mensajes.put(codigoC, mensaje2);
-                        System.out.println("Se envio el mensaje exitosamente al Coordinador: "+nombreC +" con codigo"+ codigoC);
+                    if (mensajes.containsKey(codigo)) {
+                        ArrayList<String> listaMensajes = mensajes.get(codigo);
+                        System.out.println("Tiene los siguientes mensajes:");
+                        for (String mensaje : listaMensajes) {
+                            System.out.println("- " + mensaje);
+                        }
                     } else {
-                        System.out.println("No hay ningun coordinador con el codigo "+codigoC);
+                        System.out.println("\nNo tiene mensajes");
                     }
                     break;
                 case 3:
-                    if (mensaje3 != null && !mensaje3.isEmpty()) {
-                        mensaje3 = mensajes.get(codigo);
-                        remitente = remitentes.get(codigo);
-                        System.out.println("Tiene el siguiente mensaje : " + mensaje3);
+                    System.out.print("Ingrese el codigo del Coordinador: ");
+                    codigoDestinatario = scanner.next();
+                    if (nombresLaboral.containsKey(codigoDestinatario)) {
+                        nombre = nombresLaboral.get(codigo);
+                        scanner.nextLine();
+                        System.out.print("Ingrese el mensaje: ");
+                        mensaje = scanner.nextLine();
+                        String mensajeCompleto = "De: " + nombre + ". Mensaje: " + mensaje;
+                        if (mensajes.containsKey(codigoDestinatario)) {
+                            mensajes.get(codigoDestinatario).add(mensajeCompleto);
+                        } else {
+                            ArrayList <String> listaMensajes = new ArrayList<>();
+                            listaMensajes.add(mensajeCompleto);
+                            mensajes.put(codigoDestinatario, listaMensajes);
+                        }
+                        System.out.println("Se envió el mensaje.");
                     } else {
-                        System.out.println("No tienes mensajes nuevos.");
+                        System.out.println("...");
+                        System.out.println("NO existe ningun usuario con el código " + codigoDestinatario);
                     }
                     break;
                 case 4:
-                    System.out.print("Ingrese el codigo del Coordinador : ");
-                    codigo = scanner.next();
-                    nombre = nombresLaboral.get(codigo);
-
-                    if (nombresLaboral.containsKey(codigo)) {
-                        scanner.nextLine();
-
-                        System.out.print("Ingrese el mensaje: ");
-                        mensaje2 = scanner.nextLine();
-                        mensajes.put(codigo, mensaje2);
-                        remitentes.put(codigo, remitente);
-                        System.out.println("...");
-                        System.out.println("Se envio el mensaje exitosamente al Coordinador: "+nombre +" con codigo"+ codigo);
-                    } else {
-                        System.out.println("No existe un empleado con el código " + codigo);
-                    }
-                    break;
-                case 5:
                     return;
                 default:
                     System.out.println("Opcion invalida. Por favor, seleccione una opción valida.");
