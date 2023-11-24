@@ -1,8 +1,11 @@
 import java.util.Scanner;
 import Logica.SistemaRegistro;
 
+
 public class Principal {
     public static void main(String[] args) {
+
+
         Scanner lector = new Scanner(System.in);
         SistemaRegistro sistema = new SistemaRegistro();
         while (true) {
