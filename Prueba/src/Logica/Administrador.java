@@ -11,6 +11,7 @@ public class Administrador extends Usuario {
     public Administrador(String codigo, String nombre, String rol, String tipoDoc, String numCedula, String horario, SistemaRegistro sistema) {
         super(codigo, nombre, rol, tipoDoc, numCedula, horario, sistema);
         this.sistema = sistema;
+
     }
 
     @Override

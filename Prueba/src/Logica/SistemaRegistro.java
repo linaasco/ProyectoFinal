@@ -1,8 +1,6 @@
 package Logica;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
 
 public class SistemaRegistro {
@@ -10,8 +8,6 @@ public class SistemaRegistro {
     private HashMap<String, String> tiposDocs;
     private HashMap<String, String> numCedulas;
     private HashMap<String, String> roles;
-    private HashMap<String, String> horarios;
-    private HashMap<String, List<String>> mensajes;
     private static String codigo;
     private static String nombre;
     private static String tipoDoc;
@@ -23,40 +19,40 @@ public class SistemaRegistro {
         this.tiposDocs = new HashMap<>();
         this.numCedulas = new HashMap<>();
         this.roles = new HashMap<>();
-        this.mensajes = new HashMap<>();
-        this.horarios = new HashMap<>();
     }
 
     public HashMap<String, String> getNombresLaboral() {
         return nombresLaboral;
     }
 
+    public void setNombresLaboral(HashMap<String, String> nombresLaboral) {
+        this.nombresLaboral = nombresLaboral;
+    }
+
     public HashMap<String, String> getTiposDocs() {
         return tiposDocs;
+    }
+
+    public void setTiposDocs(HashMap<String, String> tiposDocs) {
+        this.tiposDocs = tiposDocs;
     }
 
     public HashMap<String, String> getNumCedulas() {
         return numCedulas;
     }
 
+    public void setNumCedulas(HashMap<String, String> numCedulas) {
+        this.numCedulas = numCedulas;
+    }
+
     public HashMap<String, String> getRoles() {
         return roles;
     }
 
-    public HashMap<String, String> getHorarios() {
-        return horarios;
+    public void setRoles(HashMap<String, String> roles) {
+        this.roles = roles;
     }
 
-    public HashMap<String, List<String>> getMensajes() {
-        return mensajes;
-    }
-
-    public List<String> obtenerMensajes(String codigoUsuario) {
-        return mensajes.getOrDefault(codigoUsuario, new ArrayList<>());
-    }
-    public void enviarMensajes(String codigoRemitente, String codigoDestinatario, String mensaje) {
-        mensajes.computeIfAbsent(codigoDestinatario, k -> new ArrayList<>()).add(mensaje);
-    }
     public void iniciarSesion(Scanner lector) {
         System.out.print("Ingrese su código de usuario: ");
         codigo = lector.next();
@@ -131,6 +127,7 @@ public class SistemaRegistro {
             System.out.println("Usuario creado exitosamente.");
         }
     }
+
     public boolean existeUsuario(String codigo) {
         return nombresLaboral.containsKey(codigo);
     }

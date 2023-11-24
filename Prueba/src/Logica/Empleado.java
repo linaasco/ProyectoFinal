@@ -1,6 +1,8 @@
 package Logica;
 
+import java.util.HashMap;
 import java.util.Scanner;
+import java.util.List;
 
 public class Empleado extends Usuario {
     private SistemaRegistro sistema;
@@ -21,18 +23,27 @@ public class Empleado extends Usuario {
             System.out.print("Ingrese el numero de la opcion deseada: ");
             int opcion = lector.nextInt();
             lector.nextLine();
+
             switch (opcion) {
                 case 1:
                     verDatos();
                     break;
                 case 2:
-                    String codigoUsuario = getCodigo();
-                    String horariosUsuario = sistema.getHorarios().get(codigoUsuario);
-                        if (horariosUsuario != null && !horariosUsuario.isEmpty()) {
-                            System.out.println("\nSu Horario es: " + horariosUsuario);
+                    String codigoUsuario = lector.next();
+                    HashMap<String, List<String>> horariosUsuario = getHorarios();
+                    if (horariosUsuario != null) {
+                        List<String> horariosEmpleado = horariosUsuario.get(codigoUsuario);
+                        if (horariosEmpleado != null && !horariosEmpleado.isEmpty()) {
+                            System.out.println("Horario asignado:");
+                            for (String horario : horariosEmpleado) {
+                                System.out.println("- " + horario);
+                            }
                         } else {
                             System.out.println("No tienes horarios asignados.");
                         }
+                    } else {
+                        System.out.println("Error interno: No se encontró el registro de horarios para el usuario.");
+                    }
                     break;
                 case 3:
                     revisarMensajes ();
