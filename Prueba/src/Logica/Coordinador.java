@@ -1,9 +1,6 @@
 package Logica;
 
-import java.util.HashMap;
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.List;
 
 public class Coordinador extends Usuario {
     private SistemaRegistro sistema;
@@ -36,124 +33,99 @@ public class Coordinador extends Usuario {
                 case 2:
                     System.out.print("Ingrese el codigo del empleado: ");
                     String codigoUsuario = lector.next();
+                    lector.nextLine();
+                        if(sistema.existeUsuario(codigoUsuario)) {
+                            String nombreUsuario = sistema.getNombresLaboral().get(codigoUsuario);
+                            String rolUsuario = sistema.getRoles().get(codigoUsuario);
+                            if ("Empleado".equals(rolUsuario)) {
+                                String horariosUsuario = sistema.getHorarios().get(codigoUsuario);
+                                if (horariosUsuario != null && !horariosUsuario.isEmpty()) {
+                                    System.out.println("\nEl empleado " + nombreUsuario + " tiene asignado el horario: "+ horariosUsuario);
+                                } else {
+                                    System.out.println("\nEl empleado " + nombreUsuario + " NO tiene asignado ningun horario");
+                                }
+                            } else {
+                                System.out.println("El usuario no tiene rol Empleado, no se le asigna horario.");
+                            }
+
+                        } else {
+                            System.out.println("NO existe ningun usuario con el código " + codigoUsuario);
+                        }
+                    break;
+                case 3:
+                    System.out.print("Ingrese el codigo del empleado: ");
+                    codigoUsuario = lector.next();
+                    lector.nextLine();
                     if(sistema.existeUsuario(codigoUsuario)) {
                         String nombreUsuario = sistema.getNombresLaboral().get(codigoUsuario);
                         String rolUsuario = sistema.getRoles().get(codigoUsuario);
-                        if ("Administrador".equals(rolUsuario)) {
-                            System.out.println("El usuario " + nombreUsuario + " (" + codigoUsuario + ") es un Administrador y no tiene horarios disponibles.");
+                        if ("Empleado".equals(rolUsuario)) {
+                            System.out.print("Ingrese el horario a asignar: ");
+                            String horario = lector.nextLine();
+                            sistema.getHorarios().put(codigoUsuario, horario);
+                            System.out.println("Se ha asignado el horario exitosamente");
                         } else {
-                            List<String> horariosUsuario = (List<String>) getHorarios();
-                            if (horariosUsuario.isEmpty()) {
-                                System.out.println("El usuario " + nombreUsuario + " (" + codigoUsuario + ") no tiene horarios disponibles.");
-                            } else {
-                                System.out.println("Horarios disponibles para el usuario " + nombreUsuario + " (" + codigoUsuario + "):");
-                                for (String horario : horariosUsuario) {
-                                    System.out.println("- " + horario);
-                                }
-                            }
+                            System.out.println("El usuario no tiene rol Empleado, no se le asigna horario.");
                         }
                     } else {
                         System.out.println("NO existe ningun usuario con el código " + codigoUsuario);
                     }
                     break;
-                case 3:
+                case 4:
                     System.out.print("Ingrese el codigo del empleado: ");
                     codigoUsuario = lector.next();
-                    if (sistema.existeUsuario(codigoUsuario)) {
+                    lector.nextLine();
+                    if(sistema.existeUsuario(codigoUsuario)) {
                         String nombreUsuario = sistema.getNombresLaboral().get(codigoUsuario);
                         String rolUsuario = sistema.getRoles().get(codigoUsuario);
                         if ("Empleado".equals(rolUsuario)) {
-                            System.out.print("Ingrese el horario a asignar: ");
-                            String horarioAsignar = lector.next();
-                            HashMap<String, List<String>> horariosUsuario = getHorarios();
-                            if (horariosUsuario.containsKey(codigoUsuario)) {
-                                List<String> horarios = horariosUsuario.get(codigoUsuario);
-                                horarios.add(horarioAsignar);
-                                System.out.println("Horario asignado correctamente.");
+                            String horariosUsuario = sistema.getHorarios().get(codigoUsuario);
+                            if (horariosUsuario != null && !horariosUsuario.isEmpty()) {
+                                System.out.println("\nEl empleado " + nombreUsuario + " tiene asignado el horario: "+ horariosUsuario);
+                                System.out.print("Ingrese el nuevo horario: ");
+                                String horario = lector.nextLine();
+                                sistema.getHorarios().put(codigoUsuario, horario);
+                                System.out.println("Se ha modificado el horario exitosamente");
                             } else {
-                                List<String> nuevosHorarios = new ArrayList<>();
-                                nuevosHorarios.add(horarioAsignar);
-                                horariosUsuario.put(codigoUsuario, nuevosHorarios);
-                                System.out.println("Horario asignado correctamente.");
+                                System.out.println("\nEl empleado " + nombreUsuario + " NO tiene asignado ningun horario");
                             }
                         } else {
-                            System.out.println("El usuario no tiene el rol de Empleado y no se le puede asignar un horario.");
+                            System.out.println("El usuario no tiene rol Empleado, no se le asigna horario.");
                         }
                     } else {
-                        System.out.println("NO existe ningún usuario con el código " + codigoUsuario);
-                    }
-                    break;
-                case 4:
-                    System.out.print("Ingrese el código del empleado: ");
-                    codigoUsuario = lector.next();
-                    if (sistema.existeUsuario(codigoUsuario)) {
-                        String nombreUsuario = sistema.getNombresLaboral().get(codigoUsuario);
-                        String rolUsuario = sistema.getRoles().get(codigoUsuario);
-                        if ("Empleado".equals(rolUsuario)) {
-                            HashMap<String, List<String>> horariosUsuario = getHorarios();
-                            if (horariosUsuario != null) {
-                                System.out.println("El horario asignado del empleado " + nombreUsuario + " es : " + horariosUsuario);
-
-                                System.out.print("Ingrese el número del horario que desea modificar: ");
-                                int numeroHorario = lector.nextInt();
-                                lector.nextLine();
-
-                                if (numeroHorario >= 1 && numeroHorario <= horariosUsuario.size()) {
-                                    System.out.print("Ingrese el nuevo horario: ");
-                                    String nuevoHorario = lector.nextLine();
-                                    List<String> horarios = horariosUsuario.get(codigoUsuario);
-                                    horarios.set(numeroHorario - 1, nuevoHorario);
-                                    System.out.println("Horario modificado correctamente.");
-                                } else {
-                                    System.out.println("Número de horario no válido.");
-                                }
-                            } else {
-                                System.out.println("El usuario " + nombreUsuario + " (" + codigoUsuario + ") no tiene horarios guardados.");
-                            }
-                        } else {
-                            System.out.println("El usuario no tiene el rol de Empleado y no se le puede asignar un horario.");
-                        }
-                    } else {
-                        System.out.println("NO existe ningún usuario con el código " + codigoUsuario);
+                        System.out.println("NO existe ningun usuario con el código " + codigoUsuario);
                     }
                     break;
                 case 5:
-                    System.out.print("Ingrese el código del empleado: ");
+                    System.out.print("Ingrese el codigo del empleado: ");
                     codigoUsuario = lector.next();
-                    if (sistema.existeUsuario(codigoUsuario)) {
+                    lector.nextLine();
+                    if(sistema.existeUsuario(codigoUsuario)) {
                         String nombreUsuario = sistema.getNombresLaboral().get(codigoUsuario);
                         String rolUsuario = sistema.getRoles().get(codigoUsuario);
                         if ("Empleado".equals(rolUsuario)) {
-                            HashMap<String, List<String>> horariosUsuario = getHorarios();
-                            if (horariosUsuario != null) {
-                                List<String> horarios = horariosUsuario.get(codigoUsuario);
-                                if (horarios != null && !horarios.isEmpty()) {
-                                    System.out.println("Horarios actuales para el usuario " + nombreUsuario + " (" + codigoUsuario + "):");
-                                    for (int i = 0; i < horarios.size(); i++) {
-                                        System.out.println((i + 1) + ". " + horarios.get(i));
-                                    }
-
-                                    System.out.print("Ingrese el número del horario que desea eliminar: ");
-                                    int numeroHorario = lector.nextInt();
-                                    lector.nextLine(); // Limpiar el salto de línea
-
-                                    if (numeroHorario >= 1 && numeroHorario <= horarios.size()) {
-                                        horarios.remove(numeroHorario - 1);
-                                        System.out.println("Horario eliminado correctamente.");
-                                    } else {
-                                        System.out.println("Número de horario no válido.");
-                                    }
+                            String horariosUsuario = sistema.getHorarios().get(codigoUsuario);
+                            if (horariosUsuario != null && !horariosUsuario.isEmpty()) {
+                                System.out.println("\nEl empleado " + nombreUsuario + " tiene asignado el horario: "+ horariosUsuario);
+                                System.out.print("¿Está seguro que desea eliminar el horario? (si/no): ");
+                                String respuesta = lector.nextLine().toLowerCase();
+                                if (respuesta.equals("si")) {
+                                    sistema.getHorarios().remove(codigoUsuario);
+                                    System.out.println("...");
+                                    System.out.println("Se ha eliminado el horario exitosamente");
+                                } else if (respuesta.equals("no")) {
+                                    System.out.println("No se ha eliminado al horario");
                                 } else {
-                                    System.out.println("El usuario " + nombreUsuario + " (" + codigoUsuario + ") no tiene horarios guardados.");
+                                    System.out.println("Respuesta invalida. Ingrese 'si' o 'no'");
                                 }
                             } else {
-                                System.out.println("El usuario " + nombreUsuario + " (" + codigoUsuario + ") no tiene horarios guardados.");
+                                System.out.println("\nEl empleado " + nombreUsuario + " NO tiene asignado ningun horario");
                             }
                         } else {
-                            System.out.println("El usuario no tiene el rol de Empleado y no se le pueden asignar horarios.");
+                            System.out.println("El usuario no tiene rol Empleado, no se le asigna horario.");
                         }
                     } else {
-                        System.out.println("NO existe ningún usuario con el código " + codigoUsuario);
+                        System.out.println("NO existe ningun usuario con el código " + codigoUsuario);
                     }
                     break;
                 case 6:
