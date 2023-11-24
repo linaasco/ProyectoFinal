@@ -102,9 +102,13 @@ public class Coordinador extends Usuario {
                         String rolUsuario = sistema.getRoles().get(codigoUsuario);
                         if ("Empleado".equals(rolUsuario)) {
                             HashMap<String, List<String>> horariosUsuario = getHorarios();
-                            if (horariosUsuario != null) {
-                                System.out.println("El horario asignado del empleado " + nombreUsuario + " es : " + horariosUsuario);
+                            if (horariosUsuario != null && horariosUsuario.containsKey(codigoUsuario)) {
+                                List<String> horarios = horariosUsuario.get(codigoUsuario);
 
+                                System.out.println("Los horarios asignados del empleado " + nombreUsuario + " son: ");
+                                for (int i = 0; i < horarios.size(); i++) {
+                                    System.out.println((i + 1) + ". " + horarios.get(i));
+                                }
                                 System.out.print("Ingrese el número del horario que desea modificar: ");
                                 int numeroHorario = lector.nextInt();
                                 lector.nextLine();
@@ -112,7 +116,6 @@ public class Coordinador extends Usuario {
                                 if (numeroHorario >= 1 && numeroHorario <= horariosUsuario.size()) {
                                     System.out.print("Ingrese el nuevo horario: ");
                                     String nuevoHorario = lector.nextLine();
-                                    List<String> horarios = horariosUsuario.get(codigoUsuario);
                                     horarios.set(numeroHorario - 1, nuevoHorario);
                                     System.out.println("Horario modificado correctamente.");
                                     lector.nextLine();
