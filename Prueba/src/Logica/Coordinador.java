@@ -41,15 +41,23 @@ public class Coordinador extends Usuario {
                         String rolUsuario = sistema.getRoles().get(codigoUsuario);
                         if ("Administrador".equals(rolUsuario)) {
                             System.out.println("El usuario " + nombreUsuario + " (" + codigoUsuario + ") es un Administrador y no tiene horarios disponibles.");
-                        } else {
-                            List<String> horariosUsuario = (List<String>) getHorarios();
-                            if (horariosUsuario.isEmpty()) {
-                                System.out.println("El usuario " + nombreUsuario + " (" + codigoUsuario + ") no tiene horarios disponibles.");
-                            } else {
-                                System.out.println("Horarios disponibles para el usuario " + nombreUsuario + " (" + codigoUsuario + "):");
-                                for (String horario : horariosUsuario) {
-                                    System.out.println("- " + horario);
+                        }
+                        else {
+                            HashMap<String, List<String>> horariosUsuario = getHorarios();
+
+                            if (horariosUsuario.containsKey(codigoUsuario)) {
+                                List<String> horarios = horariosUsuario.get(codigoUsuario);
+
+                                if (horarios.isEmpty()) {
+                                    System.out.println("El usuario " + nombreUsuario + " (" + codigoUsuario + ") no tiene horarios disponibles.");
+                                } else {
+                                    System.out.println("Horarios disponibles para el usuario " + nombreUsuario + " (" + codigoUsuario + "):");
+                                    for (String horario : horarios) {
+                                        System.out.println("- " + horario);
+                                    }
                                 }
+                            } else {
+                                System.out.println("El usuario " + nombreUsuario + " (" + codigoUsuario + ") no tiene horarios disponibles.");
                             }
                         }
                     } else {
@@ -65,16 +73,19 @@ public class Coordinador extends Usuario {
                         if ("Empleado".equals(rolUsuario)) {
                             System.out.print("Ingrese el horario a asignar: ");
                             String horarioAsignar = lector.next();
+                            lector.nextLine();
                             HashMap<String, List<String>> horariosUsuario = getHorarios();
                             if (horariosUsuario.containsKey(codigoUsuario)) {
                                 List<String> horarios = horariosUsuario.get(codigoUsuario);
                                 horarios.add(horarioAsignar);
                                 System.out.println("Horario asignado correctamente.");
+                                lector.nextLine();
                             } else {
                                 List<String> nuevosHorarios = new ArrayList<>();
                                 nuevosHorarios.add(horarioAsignar);
                                 horariosUsuario.put(codigoUsuario, nuevosHorarios);
                                 System.out.println("Horario asignado correctamente.");
+                                lector.nextLine();
                             }
                         } else {
                             System.out.println("El usuario no tiene el rol de Empleado y no se le puede asignar un horario.");
@@ -104,6 +115,7 @@ public class Coordinador extends Usuario {
                                     List<String> horarios = horariosUsuario.get(codigoUsuario);
                                     horarios.set(numeroHorario - 1, nuevoHorario);
                                     System.out.println("Horario modificado correctamente.");
+                                    lector.nextLine();
                                 } else {
                                     System.out.println("Número de horario no válido.");
                                 }
@@ -119,12 +131,13 @@ public class Coordinador extends Usuario {
                     break;
                 case 5:
                     System.out.print("Ingrese el código del empleado: ");
-                    codigoUsuario = lector.next();
+                     codigoUsuario = lector.next();
                     if (sistema.existeUsuario(codigoUsuario)) {
                         String nombreUsuario = sistema.getNombresLaboral().get(codigoUsuario);
                         String rolUsuario = sistema.getRoles().get(codigoUsuario);
                         if ("Empleado".equals(rolUsuario)) {
                             HashMap<String, List<String>> horariosUsuario = getHorarios();
+
                             if (horariosUsuario != null) {
                                 List<String> horarios = horariosUsuario.get(codigoUsuario);
                                 if (horarios != null && !horarios.isEmpty()) {
